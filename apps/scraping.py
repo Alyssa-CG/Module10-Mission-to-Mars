@@ -2,21 +2,11 @@
 from splinter import Browser
 from bs4 import BeautifulSoup
 import pandas as pd
+import datetime as dt
 
 def scrape_all():
    # Initiate headless driver for deployment
-   browser = Browser("chrome", executable_path="chromedriver", headless=True)
-
-   news_title, news_paragraph = mars_news(browser)
-
-   # Run all scraping functions and store results in dictionary
-    data = {
-        "news_title": news_title,
-        "news_paragraph": news_paragraph,
-        "featured_image": featured_image(browser),
-        "facts": mars_facts(),
-        "last_modified": dt.datetime.now()
-    }
+    browser = Browser("chrome", executable_path="chromedriver", headless=True)
 
     ### Mars News
 
@@ -44,16 +34,14 @@ def scrape_all():
             # Use the parent element to find the first `a` tag and save it as `news_title`
             # NOTE: Pulls the most recent article title
             news_title = slide_elem.find("div", class_='content_title').get_text()
-            news_title
 
             #  Replicate above to pull article summary (teaser)
-            news_p = slide_elem.find("div", class_='article_teaser_body').get_text()
-            news_p
+            news_paragraph = slide_elem.find("div", class_='article_teaser_body').get_text()
 
         except AttributeError:
             return None, None
 
-        return news_title, news_p
+        return news_title, news_paragraph
 
     ### Featured Images
 
@@ -110,6 +98,17 @@ def scrape_all():
         
         # Convert df to HTML, add bootstrap
         return df.to_html()
+
+    news_title, news_paragraph = mars_news(browser)
+
+   # Run all scraping functions and store results in dictionary
+    data = {
+        "news_title": news_title,
+        "news_paragraph": news_paragraph,
+        "featured_image": featured_image(browser),
+        "facts": mars_facts(),
+        "last_modified": dt.datetime.now()
+    }
 
     # End Splinter browser session
     browser.quit()
