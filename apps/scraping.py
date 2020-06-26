@@ -57,7 +57,7 @@ def scrape_all():
         # Find the more info button and click that
         # Splinter is searching for this element by text
         browser.is_element_present_by_text('more info', wait_time=1)
-        more_info_elem = browser.find_link_by_partial_text('more info')
+        more_info_elem = browser.links.find_by_partial_text('more info')
         more_info_elem.click()
 
         # Parse the resulting html with soup
@@ -99,16 +99,46 @@ def scrape_all():
         # Convert df to HTML, add bootstrap
         return df.to_html()
 
+    # Challenge Hemisphere Images
+
+    url = 'http://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
+    hemispheres=[]
+
+    def challenge(hemi_index):
+        browser.visit(url)
+        browser.links.find_by_partial_text('Enhanced')[hemi_index].click()
+
+        html = browser.html
+        soup = BeautifulSoup(html, 'html.parser')
+
+        content=soup.find('div',class_='content')
+        title=content.find('h2').get_text()
+
+        full_image=soup.find('div', class_='wide-image-wrapper')
+        rel_img_url=full_image.find(class_='wide-image').get('src')
+
+        img_url=f"http://astrogeology.usgs.gov{rel_img_url}"
+        
+        return {"title":title,"img_url":img_url}
+
+    for hemi_index in range(4):    
+        hemi_info=challenge(hemi_index)
+        hemispheres.append(hemi_info)
+
+    ###
+
     news_title, news_paragraph = mars_news(browser)
 
-   # Run all scraping functions and store results in dictionary
+   # Run all scraping functions and store results dictionaries
     data = {
         "news_title": news_title,
         "news_paragraph": news_paragraph,
         "featured_image": featured_image(browser),
         "facts": mars_facts(),
+        "hemispheres": hemispheres,
         "last_modified": dt.datetime.now()
     }
+
 
     # End Splinter browser session
     browser.quit()
