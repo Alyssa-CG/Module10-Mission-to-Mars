@@ -3,7 +3,7 @@
 ## Project Overview
 This project involved scraping websites for fresh data, articles and images to display on a locally hosted Mars-centric website.
 
-![Mars site]()
+![Mars site](https://github.com/Alyssa-CG/Module10-Mission-to-Mars/blob/master/Mission%20to%20Mars.png)
 
 ## Software
 * Frequently Used Software
@@ -25,7 +25,5 @@ This project involved scraping websites for fresh data, articles and images to d
 * [scraping.py](https://github.com/Alyssa-CG/Module10-Mission-to-Mars/blob/master/apps/scraping.py)
 * [app.py](https://github.com/Alyssa-CG/Module10-Mission-to-Mars/blob/master/apps/app.py)
 * [index.html](https://github.com/Alyssa-CG/Module10-Mission-to-Mars/blob/master/apps/templates/index.html) ([index2.html](https://github.com/Alyssa-CG/Module10-Mission-to-Mars/blob/master/apps/templates/index2.html))
-* ![site screenshot](https://github.com/Alyssa-CG/Module10-Mission-to-Mars/blob/master/Mission%20to%20Mars.png)
 * [Portfolio](https://github.com/Alyssa-CG/Portfolio)
 * ![Portfolio screenshot](https://github.com/Alyssa-CG/Portfolio/blob/master/PortfolioV1.png)
-    
